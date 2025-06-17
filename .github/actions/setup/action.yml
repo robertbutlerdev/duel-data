@@ -1,0 +1,17 @@
+name: Setup
+description: Any setup required for the job to run
+runs:
+  using: composite
+  steps:
+    - name: Change working directory
+      run: cd $WORKING_DIR
+      shell: bash
+    - name: Install nodejs
+      run: asdf install nodejs
+      shell: bash
+    - name: Install pnpm
+      run: asdf install pnpm
+      shell: bash
+    - name: Install dependencies
+      run: pnpm install
+      shell: bash

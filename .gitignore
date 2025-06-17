@@ -1,0 +1,14 @@
+node_modules
+dist
+.DS_Store
+public/docs
+.ENV.*
+www
+.turbo
+volumes/
+!volumes/db/sql/.gitkeep
+*.generated*
+
+.terragrunt-cache
+
+tsconfig.tsbuildinfo

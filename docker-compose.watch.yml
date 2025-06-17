@@ -1,0 +1,47 @@
+services:
+  process-job:
+    build:
+      target: watcher
+    volumes:
+      - ./apps/processJob/dist:/app/apps/processJob/dist
+      - ./packages/api:/app/packages/api
+      - ./node_modules/.pnpm:/app/node_modules/.pnpm
+      - ./data:/app/data
+    env_file:
+      - .ENV.API
+      - .ENV.DB
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build:
+      target: watcher
+    ports:
+      - '5001:5001'
+    volumes:
+      - ./apps/api/dist:/app/apps/api/dist
+      - ./packages/api:/app/packages/api
+      - ./node_modules/.pnpm:/app/node_modules/.pnpm
+    env_file:
+      - .ENV.API
+      - .ENV.DB
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+    depends_on:
+      db:
+        condition: service_healthy

@@ -1,0 +1,33 @@
+{
+  "name": "duel-data",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robertbutlerdev/duel-data"
+  },
+  "scripts": {
+    "dev": "turbo dev --concurrency 12 --continue",
+    "format": "prettier --check \"**/*.{ts,tsx,md,css,js}\"",
+    "format-fix": "prettier --write \"**/*.{ts,tsx,md,css,js}\"",
+    "prepare": "if [ -z \"$CI\" ]; then husky; fi",
+    "serve": "turbo build && docker compose -p duel-data -f docker-compose.yml -f docker-compose.watch.yml -f docker-compose.db.local.yml up --build"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "dependencies": {
+    "commitizen": "4.3.1",
+    "cz-customizable": "7.4.0",
+    "husky": "9.1.7",
+    "prettier": "3.5.3",
+    "turbo": "2.5.4"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "commit-and-tag-version": {
+    "skip": {
+      "changelog": true
+    }
+  }
+}

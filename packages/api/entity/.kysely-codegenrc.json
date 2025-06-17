@@ -1,0 +1,12 @@
+{
+    "url": "Server=localhost;Database=master;User Id=SA;Password=Password1!",
+    "outFile": "src/types.generated.ts",
+    "includePattern": "duel_data.*",
+    "overrides": {
+        "columns": {
+            "user.joined_at": "string | null",
+            "user.created_on": "string",
+            "user.updated_on": "string"
+        }
+    }
+}

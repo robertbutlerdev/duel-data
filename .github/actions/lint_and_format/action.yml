@@ -1,0 +1,8 @@
+name: Lint and format
+description: Runs linting and formatting and ensuring everything is valid
+runs:
+  using: composite
+  steps:
+    - name: Lint and format
+      run: pnpm turbo lint --concurrency 2 && pnpm format
+      shell: bash
