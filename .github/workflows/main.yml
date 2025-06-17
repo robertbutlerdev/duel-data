@@ -29,8 +29,8 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/setup
       - name: Build API
-        uses: ./.github/actions/api
+        uses: ./.github/actions/api/build
       - name: Build Process Job
-        uses: ./.github/actions/process_job
+        uses: ./.github/actions/process_job/build
       - name: Validate and Format
         uses: ./.github/actions/lint_and_format
