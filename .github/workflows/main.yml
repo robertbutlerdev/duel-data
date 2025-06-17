@@ -1,0 +1,36 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+  WORKING_DIR: ./
+  ENV: local
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/rocketmakers/ci-node-docker-az:v7.0.0
+      env:
+        # We need to tell asdf where to install packages when using docker
+        ASDF_DATA_DIR: /root/.asdf
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
+      - name: Build API
+        uses: ./.github/actions/api
+      - name: Build Process Job
+        uses: ./.github/actions/process_job
+      - name: Validate and Format
+        uses: ./.github/actions/lint_and_format

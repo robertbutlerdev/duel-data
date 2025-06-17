@@ -1,0 +1,49 @@
+{
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": [
+    "./src/**/*.controller.ts"
+  ],
+  "spec": {
+    "securityDefinitions": {},
+    "outputDirectory": "./src/swagger.generated",
+    "specVersion": 3,
+    "specMerging": "recursive",
+    "spec": {
+      "servers": [
+        {
+          "url": "http://localhost:5001",
+          "description": "Local Server for development"
+        }
+      ],
+      "components": {
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer"
+          }
+        }
+      },
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ]
+    }
+  },
+  "routes": {
+    "routesDir": "./src/routes.generated",
+    "iocModule": "./src/ioc/ioc",
+    "authenticationModule": "./src/auth/moduleOverride.ts"
+  },
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@repo/api-common/*": [
+        "node_modules/@repo/api-common/dist/*"
+      ],
+      "@repo/api-entity/*": [
+        "node_modules/@repo/api-common/node_modules/@repo/api-entity/dist/*"
+      ]
+    }
+  }
+}

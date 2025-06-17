@@ -1,0 +1,8 @@
+name: Build API
+description: Builds the API
+runs:
+  using: composite
+  steps:
+    - name: Build API
+      run: pnpm turbo build --filter=api --concurrency 2
+      shell: bash

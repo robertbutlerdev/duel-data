@@ -1,0 +1,61 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "env": [
+        "ENV"
+      ],
+      "inputs": [
+        "src/**"
+      ],
+      "dependsOn": [
+        "^build",
+        "routes",
+        "spec"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "lint": {
+      "inputs": [
+        "src/**"
+      ]
+    },
+    "lint-fix": {},
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "routes": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "src/controller/**",
+        "src/ioc/**",
+        "tsoa.json"
+      ],
+      "outputs": [
+        "src/routes.generated"
+      ]
+    },
+    "spec": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "src/controller",
+        "src/ioc",
+        "tsoa.json"
+      ],
+      "outputs": [
+        "src/swagger.generated"
+      ]
+    }
+  }
+}

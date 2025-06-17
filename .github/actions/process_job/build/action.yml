@@ -1,0 +1,8 @@
+name: Build Process Job
+description: Builds the Process Job
+runs:
+  using: composite
+  steps:
+    - name: Build Process Job
+      run: pnpm turbo build --filter=processJob --concurrency 2
+      shell: bash

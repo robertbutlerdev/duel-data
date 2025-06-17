@@ -1,0 +1,20 @@
+services:
+  process-job:
+    image: duel-data-process-job
+    container_name: duel-data-process-job
+    build:
+      context: .
+      dockerfile: apps/processJob/Dockerfile
+      target: production
+
+  api:
+    image: duel-data-api
+    container_name: duel-data-api
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: production
+
+networks:
+  default:
+    name: duel-data

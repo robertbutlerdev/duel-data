@@ -1,0 +1,30 @@
+services:
+  db:
+    container_name: duel-data-db
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    environment:
+      ACCEPT_EULA: 'Y'
+      MSSQL_AGENT_ENABLED: 'true'
+    restart: unless-stopped
+    env_file:
+      - .ENV.DB
+    ports:
+      - 1433:1433
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  db-migration:
+    image: duel-data-db-migration
+    build:
+      context: ./db/migration
+      dockerfile: Dockerfile
+    container_name: duel-data-db-migration
+    env_file:
+      - .ENV.DB
+    depends_on:
+      db:
+        condition: service_healthy
