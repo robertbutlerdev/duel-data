@@ -1,23 +1,21 @@
-name: Main
+name: Pull Request
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+
+env:
+  LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+  WORKING_DIR: ./
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  LOG_LEVEL: ${{ vars.LOG_LEVEL }}
-  WORKING_DIR: ./
-  ENV: local
-
 jobs:
   validate:
     name: Validate
     runs-on: ubuntu-latest
+    if: startsWith(github.event.pull_request.head.ref, 'release/') == false
     container:
       image: ghcr.io/rocketmakers/ci-node-docker-az:v7.0.0
       env:
