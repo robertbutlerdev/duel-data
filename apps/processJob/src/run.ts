@@ -21,7 +21,7 @@ async function run() {
   internalContainer.bind(UserProcess).toSelf();
   const userProcess = internalContainer.get(UserProcess);
   const users = await userProcess.process();
-  return;
+
   logger.info('advocacyProgramIds');
   uniqueArray(users.flatMap(m => m.advocacy_programs.map(m => m.program_id).filter(f => f !== '')));
 
