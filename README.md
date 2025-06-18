@@ -6,6 +6,7 @@
     1. Might need to run `asdf plugin add pnpm https://github.com/jonathanmorley/asdf-pnpm.git` and `asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git`
 1. Install packages `pnpm install`
 1. Run locally `pnpm serve` (needs docker)
+1. Swagger is at http://localhost:5001/api-docs
 
 ## Estimated time spent
 * Started at 6:30pm on 12/06/2025 stopped at 8pm, npm was down
@@ -18,6 +19,8 @@
 * Could send the data from processJob through the API, but it can just go direct to the DB to avoid putting uncesessary load on the API
 * Have removed the ._user files in the data import. Seems to be metadata from zipping up on mac. Could maybe quickly parse all to make sure they are all the same to confirm they are not needed.
 * If this was a long running process and we expected these files on a regular basis then running this from a queue such as sqs/sns would be nice.
+* At the moment process job is processing all the data when code changes happen. This results in duplicates since the userId can't be trusted to be populated. Ideally we should have a script to run which triggers the files to be pushed into a process folder with process job removing them when complete. Or we use a queue for process Job to be listening to and the script pushes them into there. Not a major concern since this is a prototype.
+* It would be nice to add unit and or integration tests. Integration tests would allow us to prove the dev environment runs as expected.
 
 ## Data analysis
 * There are no valid duplicate advocacyProgramIds
