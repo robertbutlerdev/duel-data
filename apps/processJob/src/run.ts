@@ -23,19 +23,23 @@ async function run() {
   const users = await userProcess.process();
 
   logger.info('advocacyProgramIds');
-  uniqueArray(users.flatMap(m => m.advocacy_programs.map(m => m.program_id).filter(f => f !== '')));
+  arrayInsights(
+    users.flatMap(user =>
+      user.advocacy_programs.map(advocacy_program => advocacy_program.program_id).filter(f => f !== '')
+    )
+  );
 
   logger.info('userIds');
-  uniqueArray(users.map(m => m.user_id).filter(f => f !== null));
+  arrayInsights(users.map(user => user.user_id).filter(f => f !== null));
 
   logger.info('emails');
-  uniqueArray(users.map(m => m.email).filter(f => f !== 'invalid-email' && f !== null && f !== ''));
+  arrayInsights(users.map(user => user.email).filter(f => f !== 'invalid-email' && f !== null && f !== ''));
 
   logger.info('names');
-  uniqueArray(users.map(m => m.name).filter(f => f !== '???'));
+  arrayInsights(users.map(user => user.name).filter(f => f !== '???'));
 
   logger.info('brands');
-  uniqueArray(users.flatMap(m => m.advocacy_programs.map(m => m.brand)));
+  arrayInsights(users.flatMap(user => user.advocacy_programs.map(advocacy_program => advocacy_program.brand)));
 
   const dataSource = await dataSourceFactory(databaseConfig());
   internalContainer.bind(UserRepository).toSelf();
@@ -63,7 +67,7 @@ async function run() {
   });
 }
 
-const uniqueArray = <T>(arr: T[]) => {
+const arrayInsights = <T>(arr: T[]) => {
   const duplicates: T[] = [];
   const unique = arr.reduce<T[]>((acc, el) => {
     if (!acc.includes(el)) {
