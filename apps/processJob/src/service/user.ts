@@ -1,9 +1,9 @@
-import { inject, injectable } from 'inversify';
+import { IDataContext } from '@repo/api-common/types/core.types';
+import { generateUUID } from '@repo/api-common/utils/uuid.utils';
 import { UserRepository } from '@repo/api-repository/user.repository';
+import { inject, injectable } from 'inversify';
 
 import { IUser } from '../typings/user';
-import { generateUUID } from '@repo/api-common/utils/uuid.utils';
-import { IDataContext } from '@repo/api-common/types/core.types';
 
 @injectable()
 export class UserService {

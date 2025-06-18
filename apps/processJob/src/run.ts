@@ -1,10 +1,10 @@
 import { databaseConfig } from '@repo/api-common/config/database';
 import { internalContainer } from '@repo/api-common/utils/ioc.utils';
+import { createLogger, LogLevel } from '@repo/api-common/utils/logger.utils';
 import { dataSourceFactory } from '@repo/api-repository/utils/connection';
 
-import { UserProcess } from './process/user';
 import { iocSetup } from './ioc/setup';
-import { createLogger, LogLevel } from '@repo/api-common/utils/logger.utils';
+import { UserProcess } from './process/user';
 import { ArrayInsightsService } from './service/arrayInsights';
 import { UserService } from './service/user';
 
