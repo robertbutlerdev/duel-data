@@ -7,6 +7,8 @@
 1. Install packages `pnpm install`
 1. Run locally `pnpm serve` (needs docker)
 1. Swagger is at http://localhost:5001/api-docs
+1. Database connection details are in `.ENV.DB`
+1. `apps/processJob/src/run.ts` is the start of processing and validating the data
 
 ## Estimated time spent
 * Started at 6:30pm on 12/06/2025 stopped at 8pm, npm was down

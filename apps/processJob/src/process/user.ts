@@ -7,23 +7,23 @@ import { inject, injectable } from 'inversify';
 import { IUser } from '../typings/user';
 import { validateUser, validateUsers } from '../validate/user';
 
-function isSuccess(val: processOneSuccess | processOneFail): val is processOneSuccess {
-  return (val as processOneSuccess).user !== undefined;
+function isSuccess(val: IProcessOneSuccess | IProcessOneFail): val is IProcessOneSuccess {
+  return (val as IProcessOneSuccess).user !== undefined;
 }
 
-function isFail(val: processOneSuccess | processOneFail): val is processOneFail {
-  return (val as processOneFail).error !== undefined;
+function isFail(val: IProcessOneSuccess | IProcessOneFail): val is IProcessOneFail {
+  return (val as IProcessOneFail).error !== undefined;
 }
 
-interface processOneBase {
+interface IProcessOneBase {
   filePath: string;
 }
 
-interface processOneSuccess extends processOneBase {
+interface IProcessOneSuccess extends IProcessOneBase {
   user: IUser;
 }
 
-interface processOneFail extends processOneBase {
+interface IProcessOneFail extends IProcessOneBase {
   error: unknown;
 }
 
@@ -35,12 +35,14 @@ export class UserProcess {
   @MethodLogger
   async process(): Promise<IUser[]> {
     const files = await readdir(this.pathPrefix, { encoding: 'utf-8' });
-    const usersRes: (processOneSuccess | processOneFail)[] = await Promise.all(
+    const usersRes: (IProcessOneSuccess | IProcessOneFail)[] = await Promise.all(
       files.map(async file => this.processOne(file))
     );
     const processed = usersRes.filter(res => isSuccess(res)).map(m => m.user);
     const failed = usersRes.filter(res => isFail(res));
     this.logger.warn(`${failed.length} failed to process`);
+
+    // Validate performed on each and all to see what the time difference is
     this.validateEach(processed);
     return this.validateAll(processed);
   }
@@ -55,7 +57,7 @@ export class UserProcess {
     return validateUsers(users);
   }
 
-  private async processOne(filePath: string): Promise<processOneSuccess | processOneFail> {
+  private async processOne(filePath: string): Promise<IProcessOneSuccess | IProcessOneFail> {
     const path = `${this.pathPrefix}/${filePath}`;
     const res = await readFile(path, { encoding: 'utf-8' });
     try {
